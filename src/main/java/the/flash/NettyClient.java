@@ -1,5 +1,6 @@
 package the.flash;
 
+import handler.FirstClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
@@ -37,11 +38,12 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(SocketChannel ch) {
+                    ch.pipeline().addLast(new FirstClientHandler());
                     }
                 });
 
         // 4.建立连接
-        connect(bootstrap, "juejin.im", 80, MAX_RETRY);
+        connect(bootstrap, "127.0.0.1", 8000, MAX_RETRY);
     }
 
     private static void connect(Bootstrap bootstrap, String host, int port, int retry) {

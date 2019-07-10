@@ -1,5 +1,6 @@
 package the.flash;
 
+import handler.FirstServeHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -37,6 +38,7 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
                         System.out.println(ch.attr(clientKey).get());
+                        ch.pipeline().addLast(new FirstServeHandler());
                     }
                 });
 
