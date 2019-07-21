@@ -15,8 +15,8 @@ public class FirstServeHandler extends ChannelInboundHandlerAdapter {
 
         System.out.println(new Date() + ": 服务端读到数据 -> " + byteBuf.toString(Charset.forName("utf-8")));
         System.out.println(new Date() + ": 服务端写出数据");
-        ByteBuf a=getByteBuf(ctx);
-        ctx.channel().writeAndFlush(a);
+        //ByteBuf a=getByteBuf(ctx);
+        //ctx.channel().writeAndFlush(a);
     }
     private ByteBuf getByteBuf(ChannelHandlerContext ctx) {
         // 1. 获取二进制抽象 ByteBuf
