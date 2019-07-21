@@ -1,6 +1,11 @@
 package the.flash;
 
+import datapacket.coder.PacketDecoder;
+import datapacket.coder.PacketEncoder;
+import datapacket.coder.Spliter;
 import handler.FirstServeHandler;
+import handler.ServerHandler;
+import handler.myServerHandler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -9,7 +14,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.util.AttributeKey;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 public class NettyServer {
 
@@ -38,8 +47,19 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel ch) {
                         System.out.println(ch.attr(clientKey).get());
-                        ch.pipeline().addLast(new FirstServeHandler());
+                        ch.pipeline().addLast(new IMIdleStateHandler());
+                        ch.pipeline().addLast(new Spliter());
+                        ch.pipeline().addLast(new PacketDecoder());
+                        ch.pipeline().addLast(new HeartBeatRequestHandler());
+                        ch.pipeline().addLast(new LoginRequestHandler());
+                        ch.pipeline().addLast(new AuthHandler());
+                        ch.pipeline().addLast(new MessageRequestHandler());
+                        ch.pipeline().addLast(new PacketEncoder());
+
+                    //ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE,0,4)).addLast(new FirstServeHandler());
                     }
+                    //LengthFieldBasedFrameDecoder a=new  LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4);
+
                 });
 
 
@@ -55,5 +75,6 @@ public class NettyServer {
                 bind(serverBootstrap, port + 1);
             }
         });
+
     }
 }

@@ -1,7 +1,7 @@
 package datapacket;
 
 public class LoginRequestPacket extends AbstractPacket {
-    private Integer userId;
+    private String userId;
 
     private String username;
 
@@ -12,19 +12,19 @@ public class LoginRequestPacket extends AbstractPacket {
         return 1;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
-    public String getUsername() {
+    public String getUserName() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUserName(String username) {
         this.username = username;
     }
 

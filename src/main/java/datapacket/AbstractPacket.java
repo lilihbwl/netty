@@ -4,6 +4,7 @@ public abstract class AbstractPacket {
     private Byte version = 1;
 
 
+
     public abstract Byte getCommand();
 
     public Byte getVersion() {
